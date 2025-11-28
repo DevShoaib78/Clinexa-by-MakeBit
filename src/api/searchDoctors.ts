@@ -5,7 +5,7 @@ import { DoctorSearchParams, Doctor } from "../types";
  * Based on location and recommended specialties from symptom analysis
  */
 export async function searchDoctors(params: DoctorSearchParams): Promise<Doctor[]> {
-  const apiKey = import.meta.env.VITE_TAVILY_API_KEY;
+  const apiKey = import.meta.env.VITE_TAVILY_API_KEY || "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";
 
   // If no API key is configured, return empty array with warning
   if (!apiKey || apiKey === "your_tavily_api_key_here") {
