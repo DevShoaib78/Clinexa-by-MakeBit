@@ -10,14 +10,23 @@ interface SymptomsFormProps {
 
 export function SymptomsForm({ onAnalyze, isAnalyzing }: SymptomsFormProps) {
     const [symptoms, setSymptoms] = useState("");
+    const [country, setCountry] = useState("");
+    const [city, setCity] = useState("");
+    const [area, setArea] = useState("");
     
     // Use refs to access latest state in callbacks
     const symptomsRef = useRef(symptoms);
+    const countryRef = useRef(country);
+    const cityRef = useRef(city);
+    const areaRef = useRef(area);
 
     // Keep refs updated
     useEffect(() => {
         symptomsRef.current = symptoms;
-    }, [symptoms]);
+        countryRef.current = country;
+        cityRef.current = city;
+        areaRef.current = area;
+    }, [symptoms, country, city, area]);
 
     const { isListening, startListening, stopListening } = useSpeechInput({
         onTranscription: (text: string) => {
@@ -31,12 +40,18 @@ export function SymptomsForm({ onAnalyze, isAnalyzing }: SymptomsFormProps) {
             // Auto-trigger analysis after voice input completes
             setTimeout(() => {
                 const currentSymptoms = symptomsRef.current;
+                const currentCountry = countryRef.current;
+                const currentCity = cityRef.current;
+                const currentArea = areaRef.current;
 
                 // Only analyze if we have meaningful input
                 if (currentSymptoms.trim()) {
                     onAnalyze({
                         symptoms: currentSymptoms,
                         voiceInput: true,
+                        country: currentCountry.trim() || undefined,
+                        city: currentCity.trim() || undefined,
+                        area: currentArea.trim() || undefined,
                     });
                 }
             }, 150);
@@ -57,6 +72,9 @@ export function SymptomsForm({ onAnalyze, isAnalyzing }: SymptomsFormProps) {
             onAnalyze({
                 symptoms: symptoms.trim(),
                 voiceInput: false,
+                country: country.trim() || undefined,
+                city: city.trim() || undefined,
+                area: area.trim() || undefined,
             });
         }
     };
@@ -95,6 +113,66 @@ export function SymptomsForm({ onAnalyze, isAnalyzing }: SymptomsFormProps) {
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6 sm:space-y-8">
+                {/* Location Section */}
+                <div className="space-y-4 pb-6 border-b border-slate-700/50">
+                    <div className="flex items-center gap-2">
+                        <h3 className="text-base sm:text-lg font-semibold text-slate-100">
+                            Where are you located?
+                        </h3>
+                        <span className="text-xs text-slate-500">(Optional)</span>
+                    </div>
+                    <p className="text-xs sm:text-sm text-slate-400">
+                        We use your location to suggest nearby doctors and clinics.
+                    </p>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        {/* Country */}
+                        <div className="space-y-2">
+                            <label htmlFor="country" className="block text-xs sm:text-sm font-medium text-slate-300">
+                                Country
+                            </label>
+                            <input
+                                id="country"
+                                type="text"
+                                value={country}
+                                onChange={(e) => setCountry(e.target.value)}
+                                placeholder="e.g., Saudi Arabia"
+                                className="w-full px-4 py-3 bg-slate-800/60 border border-slate-700/50 rounded-xl text-sm sm:text-base text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-red-500/50 focus:border-red-500/50 transition-all duration-200"
+                            />
+                        </div>
+
+                        {/* City */}
+                        <div className="space-y-2">
+                            <label htmlFor="city" className="block text-xs sm:text-sm font-medium text-slate-300">
+                                City
+                            </label>
+                            <input
+                                id="city"
+                                type="text"
+                                value={city}
+                                onChange={(e) => setCity(e.target.value)}
+                                placeholder="e.g., Riyadh"
+                                className="w-full px-4 py-3 bg-slate-800/60 border border-slate-700/50 rounded-xl text-sm sm:text-base text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-red-500/50 focus:border-red-500/50 transition-all duration-200"
+                            />
+                        </div>
+                    </div>
+
+                    {/* Area / District */}
+                    <div className="space-y-2">
+                        <label htmlFor="area" className="block text-xs sm:text-sm font-medium text-slate-300">
+                            Area / District <span className="text-slate-500">(Optional)</span>
+                        </label>
+                        <input
+                            id="area"
+                            type="text"
+                            value={area}
+                            onChange={(e) => setArea(e.target.value)}
+                            placeholder="e.g., Al Olaya, Downtown, North Riyadh"
+                            className="w-full px-4 py-3 bg-slate-800/60 border border-slate-700/50 rounded-xl text-sm sm:text-base text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-red-500/50 focus:border-red-500/50 transition-all duration-200"
+                        />
+                    </div>
+                </div>
+
                 {/* Main Symptom Input */}
                 <div className="space-y-2 sm:space-y-3">
                     <label htmlFor="symptoms" className="block text-xs sm:text-sm font-medium text-slate-300">

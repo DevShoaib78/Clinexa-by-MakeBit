@@ -1,14 +1,20 @@
 import { useState, useRef } from "react";
-import { SymptomInput, SymptomAnalysis, AgentStep } from "../types";
+import { SymptomInput, SymptomAnalysis, AgentStep, Doctor } from "../types";
 import { analyzeSymptoms } from "../api/analyzeSymptoms";
+import { searchDoctors } from "../api/searchDoctors";
 import { SymptomsForm } from "../components/SymptomsForm";
 import { SymptomAnalysisResult } from "../components/SymptomAnalysisResult";
+import { DoctorRecommendations } from "../components/DoctorRecommendations";
 import { AgentStatus } from "../components/AgentStatus";
 import Aurora from "../components/Aurora";
 
 export function HomePage() {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [isSearchingDoctors, setIsSearchingDoctors] = useState(false);
   const [analysis, setAnalysis] = useState<SymptomAnalysis | null>(null);
+  const [doctors, setDoctors] = useState<Doctor[]>([]);
+  const [doctorSearchError, setDoctorSearchError] = useState<string>("");
+  const [hasLocation, setHasLocation] = useState(false);
   const [agentSteps, setAgentSteps] = useState<AgentStep[]>([]);
   const searchPanelRef = useRef<HTMLDivElement>(null);
 
@@ -17,9 +23,18 @@ export function HomePage() {
   };
 
   const handleAnalyze = async (input: SymptomInput) => {
+    // Reset states
     setIsAnalyzing(true);
+    setIsSearchingDoctors(false);
     setAnalysis(null);
+    setDoctors([]);
+    setDoctorSearchError("");
+    
+    // Check if location is provided
+    const locationProvided = !!(input.country && input.city);
+    setHasLocation(locationProvided);
 
+    // Step 1: Symptom Analysis with loading steps
     const steps: AgentStep[] = [
       { id: "step-1", text: "Dr. Clinexa is reviewing your symptoms...", status: "pending" },
       { id: "step-2", text: "Conducting differential diagnosis analysis...", status: "pending" },
@@ -29,6 +44,7 @@ export function HomePage() {
     ];
     setAgentSteps(steps);
 
+    // Animate through steps
     for (let i = 0; i < steps.length; i++) {
       await new Promise((resolve) => setTimeout(resolve, 600));
       setAgentSteps((prev) =>
@@ -39,17 +55,59 @@ export function HomePage() {
       );
     }
 
-    const result = await analyzeSymptoms(input);
+    try {
+      // Call Gemini for symptom analysis
+      const result = await analyzeSymptoms(input);
 
-    setAgentSteps((prev) =>
-      prev.map((step) => ({ ...step, status: "done" as const }))
-    );
+      setAgentSteps((prev) =>
+        prev.map((step) => ({ ...step, status: "done" as const }))
+      );
 
-    setTimeout(() => {
-      setAnalysis(result);
+      setTimeout(() => {
+        setAnalysis(result);
+        setIsAnalyzing(false);
+        setAgentSteps([]);
+
+        // Step 2: Search for doctors if location provided
+        if (locationProvided && input.country && input.city) {
+          searchForDoctors(input.country, input.city, input.area, result.recommendedSpecialties);
+        }
+      }, 400);
+    } catch (error) {
+      console.error("Error analyzing symptoms:", error);
       setIsAnalyzing(false);
       setAgentSteps([]);
-    }, 400);
+      // Still allow doctor search if location provided
+      if (locationProvided && input.country && input.city) {
+        searchForDoctors(input.country, input.city, input.area, ["General Physician"]);
+      }
+    }
+  };
+
+  const searchForDoctors = async (
+    country: string,
+    city: string,
+    area: string | undefined,
+    specialties: string[] | undefined
+  ) => {
+    setIsSearchingDoctors(true);
+    setDoctorSearchError("");
+
+    try {
+      const doctorResults = await searchDoctors({
+        country,
+        city,
+        area,
+        specialties: specialties || ["General Physician"],
+      });
+
+      setDoctors(doctorResults);
+    } catch (error) {
+      console.error("Error searching for doctors:", error);
+      setDoctorSearchError(error instanceof Error ? error.message : "Unknown error occurred");
+    } finally {
+      setIsSearchingDoctors(false);
+    }
   };
 
   return (
@@ -125,12 +183,26 @@ export function HomePage() {
       {/* Results Section */}
       {(isAnalyzing || analysis) && (
         <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-fadeIn">
+          {/* Symptom Analysis Loading */}
           {isAnalyzing && (
             <AgentStatus steps={agentSteps} />
           )}
 
+          {/* Symptom Analysis Results */}
           {!isAnalyzing && analysis && (
-            <SymptomAnalysisResult analysis={analysis} />
+            <div className="space-y-8">
+              <SymptomAnalysisResult analysis={analysis} />
+              
+              {/* Doctor Recommendations Section */}
+              <div className="space-y-4">
+                <DoctorRecommendations 
+                  doctors={doctors}
+                  isSearching={isSearchingDoctors}
+                  hasLocation={hasLocation}
+                  error={doctorSearchError}
+                />
+              </div>
+            </div>
           )}
         </div>
       )}

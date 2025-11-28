@@ -2,7 +2,7 @@
 
 ## Required Environment Variables
 
-Clinexa uses Google's Gemini Pro AI for advanced medical symptom analysis. You need to set up your API key to use the full functionality.
+Clinexa uses **Google's Gemini Pro AI** for advanced medical symptom analysis and **Tavily Search API** for finding nearby doctors and clinics. You need to set up your API keys to use the full functionality.
 
 ### 1. Create `.env` file
 
@@ -13,15 +13,21 @@ Create a file named `.env` in the root directory of the project:
 touch .env
 ```
 
-### 2. Add Gemini API Key
+### 2. Add API Keys
 
-Add the following line to your `.env` file:
+Add the following lines to your `.env` file:
 
 ```env
+# Google Gemini API Key (for symptom analysis)
 VITE_GEMINI_API_KEY=your_gemini_api_key_here
+
+# Tavily API Key (for doctor search)
+VITE_TAVILY_API_KEY=your_tavily_api_key_here
 ```
 
-### 3. Get Your Gemini API Key
+### 3. Get Your API Keys
+
+#### Get Gemini API Key (For Symptom Analysis)
 
 1. Go to [https://makersuite.google.com/app/apikey](https://makersuite.google.com/app/apikey)
 2. Sign in with your Google account
@@ -29,9 +35,18 @@ VITE_GEMINI_API_KEY=your_gemini_api_key_here
 4. Copy the key (it starts with `AIza...`)
 5. Paste it in your `.env` file
 
-**Example:**
+#### Get Tavily API Key (For Doctor Search)
+
+1. Go to [https://tavily.com](https://tavily.com)
+2. Sign up for a free account
+3. Navigate to API Keys section
+4. Copy your API key
+5. Paste it in your `.env` file
+
+**Example `.env` file:**
 ```env
 VITE_GEMINI_API_KEY=AIzaSyBab6lN5hCDzFfVNpsdFcCNrg7Q64P3aIU
+VITE_TAVILY_API_KEY=tvly-1234567890abcdefghijklmnop
 ```
 
 ### 4. Restart Development Server
@@ -46,8 +61,9 @@ npm run dev
 
 ## Mock Data Fallback
 
-**Don't have an API key yet?** No problem!
+**Don't have API keys yet?** No problem!
 
+### Symptom Analysis Fallback
 If you don't set `VITE_GEMINI_API_KEY`, Clinexa will automatically use enhanced mock data for testing and demonstration purposes. This allows you to:
 
 - Test the UI and user flow with doctor-like responses
@@ -56,9 +72,18 @@ If you don't set `VITE_GEMINI_API_KEY`, Clinexa will automatically use enhanced 
 
 The mock data generator intelligently creates detailed, professional medical-style responses based on keywords in the symptoms you enter.
 
+### Doctor Search Fallback
+If you don't set `VITE_TAVILY_API_KEY`:
+
+- Symptom analysis will still work normally
+- Doctor search will be skipped
+- A friendly message will prompt users to add location information
+- No errors or crashes - the app gracefully handles missing API keys
+
 ## API Costs
 
-Google Gemini Pro API is **FREE** for standard usage:
+### Google Gemini Pro (Symptom Analysis)
+**FREE** for standard usage:
 
 - **Model**: Gemini Pro
 - **Free Tier**: 60 requests per minute
@@ -67,6 +92,16 @@ Google Gemini Pro API is **FREE** for standard usage:
 - **Estimated cost per analysis**: $0.00 (within free tier)
 
 For pricing details: [https://ai.google.dev/pricing](https://ai.google.dev/pricing)
+
+### Tavily Search API (Doctor Search)
+**FREE tier available**:
+
+- **Free Tier**: 1,000 searches per month
+- **Cost**: FREE up to 1,000 searches, then pay-as-you-go
+- **Average request**: 8 doctor results per search
+- **Estimated cost per search**: $0.00 (within free tier)
+
+For pricing details: [https://tavily.com/pricing](https://tavily.com/pricing)
 
 ## Security Notes
 
@@ -109,15 +144,26 @@ If the app uses mock data even with a key set:
 ### Development (Local)
 ```env
 # .env file
-VITE_OPENAI_API_KEY=sk-proj-your-key-here
+VITE_GEMINI_API_KEY=your_gemini_key_here
+VITE_TAVILY_API_KEY=your_tavily_key_here
 ```
 
 ### Production (Netlify/Vercel)
 Add environment variables through the hosting platform's dashboard:
-- Variable name: `VITE_GEMINI_API_KEY`
-- Value: Your Gemini API key
 
-**Note:** Environment variables starting with `VITE_` are exposed to the client-side code. Gemini API keys can be safely used client-side, but you can optionally set up domain restrictions in the Google Cloud Console for added security.
+**For Netlify:**
+1. Go to Site Settings → Environment Variables
+2. Add both variables:
+   - `VITE_GEMINI_API_KEY` = Your Gemini API key
+   - `VITE_TAVILY_API_KEY` = Your Tavily API key
+3. Redeploy your site
+
+**For Vercel:**
+1. Go to Project Settings → Environment Variables
+2. Add both variables with their values
+3. Redeploy
+
+**Note:** Environment variables starting with `VITE_` are exposed to the client-side code. Both Gemini and Tavily API keys can be safely used client-side for this use case, but consider setting up domain restrictions for additional security in production.
 
 ## Questions?
 

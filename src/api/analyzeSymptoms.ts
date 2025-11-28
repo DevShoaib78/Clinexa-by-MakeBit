@@ -64,8 +64,15 @@ ANALYSIS STRUCTURE - Respond in this EXACT JSON format:
   ],
   "shouldSeeDoctorUrgently": true/false,
   "suggestedSpecialist": "Type of specialist with brief explanation why",
+  "recommendedSpecialties": [
+    "Primary specialty type (e.g., Dermatologist, Cardiologist, ENT Specialist)",
+    "Alternative specialty if applicable",
+    "General Physician (as fallback)"
+  ],
   "doctorNotes": "Additional professional insights, differential diagnosis considerations, or important contextual information a doctor would share. Be thorough and educational (2-3 sentences)."
 }
+
+IMPORTANT: The "recommendedSpecialties" array should contain 1-3 medical specialties that would be most appropriate for the patient's symptoms. Use standard specialty names like: General Physician, Cardiologist, Dermatologist, Neurologist, Gastroenterologist, Orthopedic Surgeon, ENT Specialist, Pediatrician, Psychiatrist, etc.
 
 PATIENT'S SYMPTOMS:
 ${input.symptoms}
@@ -137,6 +144,7 @@ Please provide a thorough, compassionate analysis as if you were conducting an i
       ],
       shouldSeeDoctorUrgently: analysisData.shouldSeeDoctorUrgently || false,
       suggestedSpecialist: analysisData.suggestedSpecialist || "General Physician for initial evaluation",
+      recommendedSpecialties: analysisData.recommendedSpecialties || ["General Physician"],
       doctorNotes: analysisData.doctorNotes,
       disclaimer: "This AI-powered analysis is for informational purposes only and does not constitute a medical diagnosis. It's essential to consult with a qualified, licensed healthcare professional for proper medical evaluation, diagnosis, and treatment. Certain conditions require physical examination and diagnostic tests that only an in-person visit can provide.",
       timestamp: new Date().toISOString(),
@@ -231,6 +239,20 @@ function generateMockAnalysis(symptoms: string): SymptomAnalysis {
     "Practice stress management techniques and maintain healthy lifestyle habits"
   ];
 
+  // Extract specialties array
+  let recommendedSpecialties = ["General Physician"];
+  if (suggestedSpecialist.includes("Dermatologist")) {
+    recommendedSpecialties = ["Dermatologist", "General Physician"];
+  } else if (suggestedSpecialist.includes("Cardiologist")) {
+    recommendedSpecialties = ["Cardiologist", "General Physician"];
+  } else if (suggestedSpecialist.includes("Gastroenterologist")) {
+    recommendedSpecialties = ["Gastroenterologist", "General Physician"];
+  } else if (suggestedSpecialist.includes("Neurologist")) {
+    recommendedSpecialties = ["Neurologist", "General Physician"];
+  } else if (suggestedSpecialist.includes("ENT") || suggestedSpecialist.includes("Pulmonologist")) {
+    recommendedSpecialties = ["ENT Specialist", "Pulmonologist", "General Physician"];
+  }
+
   return {
     id: `mock-${Date.now()}`,
     summary: `Thank you for sharing your symptoms with me. I've carefully reviewed what you've described: "${symptoms.substring(0, 100)}${symptoms.length > 100 ? '...' : ''}". Based on this information, ${severity === 'urgent' ? 'I want to emphasize that these symptoms require prompt medical attention.' : severity === 'moderate' ? 'these symptoms warrant medical evaluation to ensure proper care.' : 'while these symptoms may be concerning, they often respond well to appropriate care and monitoring.'} Let me provide you with a detailed assessment to help guide your next steps.`,
@@ -256,6 +278,7 @@ function generateMockAnalysis(symptoms: string): SymptomAnalysis {
     recommendedActions: shouldSeeDoctorUrgently ? urgentActions : severity === 'moderate' ? moderateActions : mildActions,
     shouldSeeDoctorUrgently,
     suggestedSpecialist,
+    recommendedSpecialties,
     doctorNotes,
     disclaimer: "This AI-powered analysis is for informational purposes only and does not constitute a medical diagnosis. It's essential to consult with a qualified, licensed healthcare professional for proper medical evaluation, diagnosis, and treatment. Certain conditions require physical examination and diagnostic tests that only an in-person visit can provide.",
     timestamp: new Date().toISOString(),

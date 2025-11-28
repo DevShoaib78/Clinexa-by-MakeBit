@@ -1,6 +1,9 @@
 export interface SymptomInput {
   symptoms: string;
   voiceInput?: boolean;
+  country?: string;
+  city?: string;
+  area?: string;
 }
 
 export interface SymptomAnalysis {
@@ -12,9 +15,30 @@ export interface SymptomAnalysis {
   recommendedActions: string[];
   shouldSeeDoctorUrgently: boolean;
   suggestedSpecialist?: string;
+  recommendedSpecialties?: string[]; // For doctor matching
   doctorNotes?: string;
   disclaimer: string;
   timestamp: string;
+}
+
+export interface DoctorSearchParams {
+  country: string;
+  city: string;
+  area?: string;
+  specialties?: string[]; // e.g. ["Dermatology", "Cardiology"]
+}
+
+export interface Doctor {
+  id: string;
+  name: string;
+  specialization?: string;
+  location?: string;
+  city?: string;
+  area?: string;
+  country?: string;
+  sourceName?: string; // e.g. "Healthgrades", "Clinic website"
+  sourceUrl?: string;
+  notes?: string; // explanation like "Matches recommended specialty: Dermatology"
 }
 
 export interface DoctorSpecialty {
