@@ -122,7 +122,7 @@ export function SymptomsForm({ onAnalyze, isAnalyzing }: SymptomsFormProps) {
                         <span className="text-xs text-slate-500">(Optional)</span>
                     </div>
                     <p className="text-xs sm:text-sm text-slate-400">
-                        We use your location to suggest nearby doctors and clinics.
+                        We use your location to suggest nearby specialist doctors for your symptoms.
                     </p>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

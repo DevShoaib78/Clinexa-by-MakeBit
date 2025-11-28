@@ -65,24 +65,27 @@ export async function searchDoctors(params: DoctorSearchParams): Promise<Doctor[
 }
 
 /**
- * Builds an optimized search query for finding doctors
+ * Builds an optimized search query for finding individual doctors/specialists
  */
 function buildDoctorSearchQuery(params: DoctorSearchParams): string {
   const { country, city, area, specialties } = params;
   
   const parts: string[] = [];
 
+  // Add "Dr." prefix to emphasize individual doctors
+  parts.push("Dr.");
+
   // Add specialty if available (use top 1-3)
   if (specialties && specialties.length > 0) {
-    const topSpecialties = specialties.slice(0, 3).join(" OR ");
+    const topSpecialties = specialties.slice(0, 3).join(" OR Dr. ");
     parts.push(topSpecialties);
   } else {
     // Fallback to general physician
     parts.push("general physician");
   }
 
-  // Add "doctors" keyword
-  parts.push("doctors");
+  // Add "specialist" keyword to focus on individual doctors
+  parts.push("specialist doctor physician");
 
   // Add location specifics
   if (area) {
@@ -91,24 +94,34 @@ function buildDoctorSearchQuery(params: DoctorSearchParams): string {
   parts.push(city);
   parts.push(country);
 
-  // Add context keywords
-  parts.push("clinic hospital medical center appointment contact");
+  // Add context keywords focused on individual doctors, NOT hospitals
+  parts.push("private clinic consultation appointment contact -hospital -medical center");
 
   return parts.join(" ");
 }
 
 /**
- * Maps Tavily search results to Doctor objects
+ * Maps Tavily search results to Doctor objects, filtering out hospitals
  */
 function mapTavilyResultsToDoctors(
   tavilyResults: any[],
   params: DoctorSearchParams
 ): Doctor[] {
-  return tavilyResults.map((result, index) => {
+  const doctors: Doctor[] = [];
+
+  for (let index = 0; index < tavilyResults.length; index++) {
+    const result = tavilyResults[index];
+    
     // Extract basic info
     const title = result.title || `Medical Provider ${index + 1}`;
     const url = result.url || "";
     const content = result.content || result.raw_content || "";
+    
+    // FILTER OUT HOSPITALS - Skip if this looks like a hospital/medical center
+    if (isHospitalOrMedicalCenter(title, content, url)) {
+      console.log(`Filtering out hospital/medical center: ${title}`);
+      continue;
+    }
     
     // Extract domain name for source
     let sourceName = "Unknown Source";
@@ -123,6 +136,12 @@ function mapTavilyResultsToDoctors(
 
     // Try to extract doctor/clinic name from title
     const name = extractDoctorName(title);
+
+    // Skip if name still looks like a hospital
+    if (isHospitalName(name)) {
+      console.log(`Filtering out hospital name: ${name}`);
+      continue;
+    }
 
     // Try to detect specialization from content
     const specialization = detectSpecialization(content, title);
@@ -146,12 +165,67 @@ function mapTavilyResultsToDoctors(
       notes,
     };
 
-    return doctor;
-  });
+    doctors.push(doctor);
+  }
+
+  return doctors;
 }
 
 /**
- * Extracts doctor or clinic name from title
+ * Checks if result is a hospital or medical center (to filter out)
+ */
+function isHospitalOrMedicalCenter(title: string, content: string, url: string): boolean {
+  const text = `${title} ${content} ${url}`.toLowerCase();
+
+  // Hospital keywords that indicate this is NOT an individual doctor
+  const hospitalKeywords = [
+    "hospital",
+    "medical center",
+    "health center",
+    "healthcare center",
+    "medical complex",
+    "polyclinic",
+    "multi-specialty center",
+    "emergency room",
+    "urgent care center",
+    "surgery center",
+    "diagnostic center",
+    "imaging center",
+    "laboratory",
+    "pharmacy",
+  ];
+
+  // Check if title or content prominently features hospital keywords
+  for (const keyword of hospitalKeywords) {
+    // If the title itself is primarily about the hospital/center
+    if (title.toLowerCase().includes(keyword) && !title.toLowerCase().includes("dr.")) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+/**
+ * Checks if name looks like a hospital name
+ */
+function isHospitalName(name: string): boolean {
+  const nameLower = name.toLowerCase();
+  
+  const hospitalIndicators = [
+    "hospital",
+    "medical center",
+    "health center",
+    "medical complex",
+    "polyclinic",
+    "healthcare center",
+  ];
+
+  return hospitalIndicators.some(indicator => nameLower.includes(indicator));
+}
+
+/**
+ * Extracts individual doctor or specialist name from title
  */
 function extractDoctorName(title: string): string {
   // Clean up common patterns
@@ -161,18 +235,29 @@ function extractDoctorName(title: string): string {
   name = name.replace(/\s*[-–|]\s*.+$/, ""); // Remove everything after dash/pipe
   name = name.replace(/\s*\(.+?\)\s*/g, ""); // Remove parentheses
   
-  // If it starts with "Dr." or "Doctor", keep it
-  if (name.match(/^(Dr\.|Doctor)/i)) {
+  // If it starts with "Dr." or "Doctor", keep it as is
+  if (name.match(/^(Dr\.|Doctor)\s+[A-Z]/i)) {
     return name.trim();
   }
 
-  // If it mentions clinic/hospital/medical center, keep it
-  if (name.match(/(clinic|hospital|medical center|health center)/i)) {
+  // If it's clearly a doctor's name, add "Dr." prefix
+  if (name.match(/^[A-Z][a-z]+\s+[A-Z][a-z]+/)) {
+    return `Dr. ${name.trim()}`;
+  }
+
+  // If it mentions a specific doctor name within text
+  const doctorMatch = title.match(/Dr\.\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)+)/i);
+  if (doctorMatch) {
+    return `Dr. ${doctorMatch[1].trim()}`;
+  }
+
+  // If it mentions "private clinic" or "specialist clinic", extract the name
+  if (name.match(/(private|specialist)\s+clinic/i)) {
     return name.trim();
   }
 
   // Otherwise, clean and return
-  return name.trim() || "Medical Provider";
+  return name.trim() || "Medical Specialist";
 }
 
 /**
@@ -206,8 +291,8 @@ function detectSpecialization(content: string, title: string): string | undefine
     }
   }
 
-  // If no specific specialty found, check for general medical terms
-  if (text.match(/\b(doctor|physician|clinic|hospital|medical)\b/)) {
+  // If no specific specialty found but mentions doctor/physician
+  if (text.match(/\b(doctor|physician|specialist)\b/)) {
     return undefined; // Will show as general medical provider
   }
 

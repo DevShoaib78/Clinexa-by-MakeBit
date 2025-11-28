@@ -22,7 +22,7 @@ export function DoctorRecommendations({
         <div className="flex items-center justify-center gap-3 py-8">
           <Loader2 className="w-6 h-6 text-red-400 animate-spin" />
           <p className="text-slate-300 text-sm sm:text-base">
-            Searching for doctors and clinics near you...
+            Searching for specialist doctors near you...
           </p>
         </div>
       </div>
@@ -79,10 +79,10 @@ export function DoctorRecommendations({
             <Stethoscope className="w-6 h-6 text-slate-400" />
           </div>
           <h4 className="text-base sm:text-lg font-semibold text-slate-100 mb-2">
-            No Nearby Doctors Found
+            No Nearby Specialist Doctors Found
           </h4>
           <p className="text-sm text-slate-300 max-w-md mx-auto">
-            We couldn't find relevant doctors or clinics for your area. Try widening your location or searching manually.
+            We couldn't find relevant specialist doctors for your area. Try widening your location or searching manually.
           </p>
         </div>
       </div>
@@ -96,10 +96,10 @@ export function DoctorRecommendations({
       <div className="glass-strong rounded-xl sm:rounded-2xl p-4 sm:p-5 border border-red-500/20 bg-gradient-to-br from-red-500/5 to-transparent">
         <h3 className="text-base sm:text-lg font-semibold text-slate-100 mb-2 flex items-center gap-2">
           <Stethoscope className="w-5 h-5 text-red-400" />
-          Recommended Doctors Near You
+          Recommended Doctors & Specialists Near You
         </h3>
         <p className="text-xs sm:text-sm text-slate-300">
-          Based on your symptoms and location, here are some doctors and clinics you can consider.{" "}
+          Based on your symptoms and location, here are individual doctors and specialists you can consider.{" "}
           <span className="text-slate-400">
             We do not endorse or verify these providers — always confirm details yourself.
           </span>
@@ -116,7 +116,7 @@ export function DoctorRecommendations({
       {/* Disclaimer */}
       <div className="glass-strong rounded-xl p-4 border border-yellow-500/20 bg-yellow-500/5">
         <p className="text-xs text-slate-400 leading-relaxed">
-          <span className="font-semibold text-yellow-400">Important Disclaimer:</span> Clinexa does not endorse or verify any specific doctor or clinic. These recommendations are based on web search results and may not be accurate or current. Always do your own research, verify credentials, and follow local medical regulations. In emergencies, contact your local emergency services immediately.
+          <span className="font-semibold text-yellow-400">Important Disclaimer:</span> Clinexa does not endorse or verify any specific doctor or specialist. These recommendations are based on web search results and may not be accurate or current. Always verify doctor credentials, check reviews, and confirm their practice details before making an appointment. In emergencies, contact your local emergency services immediately.
         </p>
       </div>
     </div>
