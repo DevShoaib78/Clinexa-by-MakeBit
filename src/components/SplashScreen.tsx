@@ -43,7 +43,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onFinish }) => {
                 {/* Animated Aurora Gradient - Live Background Effect */}
                 <div className="absolute inset-0 opacity-60">
                     <Aurora
-                        colorStops={['#10b981', '#34d399', '#059669']}
+                        colorStops={['#ef4444', '#f87171', '#fb7185']}
                         blend={0.7}
                         amplitude={1.5}
                         speed={0.4}
@@ -51,10 +51,10 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onFinish }) => {
                 </div>
 
                 {/* Animated Gradient Orbs - Multiple Layers */}
-                <div className="absolute top-0 left-1/4 w-[300px] sm:w-[400px] md:w-[600px] h-[300px] sm:h-[400px] md:h-[600px] bg-emerald-500/15 rounded-full blur-3xl animate-blob z-0" />
-                <div className="absolute top-1/4 right-1/4 w-[250px] sm:w-[350px] md:w-[500px] h-[250px] sm:h-[350px] md:h-[500px] bg-emerald-600/12 rounded-full blur-3xl animate-blob z-0" style={{ animationDelay: '2s' }} />
-                <div className="absolute bottom-0 left-1/3 w-[350px] sm:w-[500px] md:w-[700px] h-[350px] sm:h-[500px] md:h-[700px] bg-emerald-400/10 rounded-full blur-3xl animate-blob z-0" style={{ animationDelay: '4s' }} />
-                <div className="absolute top-1/2 right-0 w-[200px] sm:w-[300px] md:w-[400px] h-[200px] sm:h-[300px] md:h-[400px] bg-emerald-500/8 rounded-full blur-3xl animate-blob z-0" style={{ animationDelay: '1s' }} />
+                <div className="absolute top-0 left-1/4 w-[300px] sm:w-[400px] md:w-[600px] h-[300px] sm:h-[400px] md:h-[600px] bg-red-500/15 rounded-full blur-3xl animate-blob z-0" />
+                <div className="absolute top-1/4 right-1/4 w-[250px] sm:w-[350px] md:w-[500px] h-[250px] sm:h-[350px] md:h-[500px] bg-red-600/12 rounded-full blur-3xl animate-blob z-0" style={{ animationDelay: '2s' }} />
+                <div className="absolute bottom-0 left-1/3 w-[350px] sm:w-[500px] md:w-[700px] h-[350px] sm:h-[500px] md:h-[700px] bg-rose-400/10 rounded-full blur-3xl animate-blob z-0" style={{ animationDelay: '4s' }} />
+                <div className="absolute top-1/2 right-0 w-[200px] sm:w-[300px] md:w-[400px] h-[200px] sm:h-[300px] md:h-[400px] bg-red-500/8 rounded-full blur-3xl animate-blob z-0" style={{ animationDelay: '1s' }} />
                 
                 {/* Animated Radial Glow - Pulsing Center */}
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] sm:w-[600px] md:w-[800px] h-[400px] sm:h-[600px] md:h-[800px] bg-emerald-500/10 rounded-full blur-3xl animate-pulse-glow" />
@@ -64,7 +64,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onFinish }) => {
                     {[...Array(15)].map((_, i) => (
                         <div
                             key={i}
-                            className="absolute w-2 h-2 bg-emerald-400/40 rounded-full blur-sm particle"
+                            className="absolute w-2 h-2 bg-red-400/40 rounded-full blur-sm particle"
                             style={{
                                 left: `${(i * 6.67) % 100}%`,
                                 top: `${20 + (i % 4) * 25}%`,
@@ -79,7 +79,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onFinish }) => {
                     {[...Array(20)].map((_, i) => (
                         <div
                             key={`small-${i}`}
-                            className="absolute w-1 h-1 bg-emerald-300/30 rounded-full blur-[1px] animate-float"
+                            className="absolute w-1 h-1 bg-red-300/30 rounded-full blur-[1px] animate-float"
                             style={{
                                 left: `${(i * 5) % 100}%`,
                                 top: `${10 + (i % 5) * 20}%`,
@@ -93,7 +93,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onFinish }) => {
 
             {/* Main Content Container - Centered */}
             <div className="relative z-10 flex items-center justify-center px-6">
-                {/* NextBid Logo - Hero Focal Point with Zoom + Rotation Animation */}
+                {/* Clinexa Logo - Hero Focal Point with Zoom + Rotation Animation */}
                 <div
                     className={`relative transition-all duration-[900ms] ease-out ${
                         showLogo
@@ -104,13 +104,13 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onFinish }) => {
                         transitionTimingFunction: 'cubic-bezier(0.34, 1.56, 0.64, 1)',
                     }}
                 >
-                    {/* Soft Emerald Glow Behind Logo */}
+                    {/* Soft Red Glow Behind Logo */}
                     <div
                         className={`absolute inset-0 -z-10 rounded-full blur-3xl transition-opacity duration-[900ms] ${
                             showLogo ? 'opacity-70' : 'opacity-0'
                         }`}
                         style={{
-                            background: 'radial-gradient(circle, rgba(16, 185, 129, 0.4) 0%, transparent 70%)',
+                            background: 'radial-gradient(circle, rgba(239, 68, 68, 0.4) 0%, transparent 70%)',
                             transform: 'scale(1.4)',
                         }}
                     />
@@ -121,17 +121,17 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onFinish }) => {
                             showLogo ? 'opacity-50' : 'opacity-0'
                         }`}
                         style={{
-                            boxShadow: '0 0 80px rgba(16, 185, 129, 0.4)',
+                            boxShadow: '0 0 80px rgba(239, 68, 68, 0.4)',
                             transform: 'scale(1.2)',
                         }}
                     />
 
                     <img
-                        src="/assets/nexbidwithoutbg.png"
-                        alt="NextBid Logo"
+                        src="/assets/clinexalogo.webp"
+                        alt="Clinexa Logo"
                         className="relative z-10 w-48 sm:w-56 md:w-72 lg:w-80 h-auto drop-shadow-2xl"
                         style={{
-                            filter: 'drop-shadow(0 0 50px rgba(16, 185, 129, 0.4))',
+                            filter: 'drop-shadow(0 0 50px rgba(239, 68, 68, 0.4))',
                         }}
                         loading="eager"
                     />

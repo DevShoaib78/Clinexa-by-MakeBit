@@ -6,15 +6,15 @@ export function Footer() {
           <div className="flex flex-col items-center md:items-start">
             <div className="mb-4">
               <img
-                src="/assets/nexbidwithoutbg.png"
-                alt="NexBid Logo"
+                src="/assets/clinexalogo.webp"
+                alt="Clinexa Logo"
                 className="h-10 sm:h-12 w-auto object-contain"
                 loading="lazy"
               />
             </div>
             <p className="text-sm text-slate-400 leading-relaxed max-w-xs">
-              Discover construction tenders and public projects in Saudi cities
-              with AI-powered search and insights.
+              AI-powered symptom analysis to help you understand your health
+              and know when to see a doctor.
             </p>
           </div>
 
@@ -26,15 +26,15 @@ export function Footer() {
               <li>
                 <a
                   href="/"
-                  className="text-sm text-slate-400 hover:text-emerald-400 transition-colors"
+                  className="text-sm text-slate-400 hover:text-red-400 transition-colors"
                 >
-                  Search Tenders
+                  Symptom Analyzer
                 </a>
               </li>
               <li>
                 <a
                   href="/about"
-                  className="text-sm text-slate-400 hover:text-emerald-400 transition-colors"
+                  className="text-sm text-slate-400 hover:text-red-400 transition-colors"
                 >
                   How It Works
                 </a>
@@ -51,7 +51,7 @@ export function Footer() {
             </p>
             <a
               href="mailto:team@makebit.tech"
-              className="text-sm text-emerald-400 hover:text-emerald-300 transition-colors"
+              className="text-sm text-red-400 hover:text-red-300 transition-colors"
             >
               team@makebit.tech
             </a>
@@ -77,9 +77,8 @@ export function Footer() {
               </a>
             </div>
             <p className="text-xs text-slate-500 max-w-md">
-              We are not an official government portal. All tender data is
-              sourced from public information and should be verified on official
-              portals.
+              Clinexa is not a medical service and does not provide diagnoses. 
+              Always consult with qualified healthcare professionals for medical advice.
             </p>
           </div>
           <div className="mt-4 text-center">

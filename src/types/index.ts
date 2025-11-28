@@ -1,31 +1,27 @@
-export interface SearchParams {
-  city: "Riyadh" | "Jeddah";
-  area?: string;
-  projectType?: string;
-  query?: string; // Natural language query from the main input field
-  year?: number; // Filter by year (default: 2025)
-  month?: number; // Filter by month (1-12, optional)
+export interface SymptomInput {
+  symptoms: string;
+  voiceInput?: boolean;
 }
 
-export interface Tender {
+export interface SymptomAnalysis {
   id: string;
-  title: string;
-  status: "open" | "closing_soon" | "closed";
-  city: "Riyadh" | "Jeddah";
-  area?: string;
-  category?: string;
-  authority?: string;
-  estimatedValue?: string;
-  deadline?: string;
-  summary?: string;
-  requirements?: string[];
-  announcementDate?: string;
-  clarificationDeadline?: string;
-  submissionDeadline?: string;
-  duration?: string;
-  sourceName?: string;
-  sourceUrl?: string;
-  aiInsight?: string;
+  summary: string;
+  possibleConditions: string[];
+  severity: "mild" | "moderate" | "urgent";
+  redFlags: string[];
+  recommendedActions: string[];
+  shouldSeeDoctorUrgently: boolean;
+  suggestedSpecialist?: string;
+  doctorNotes?: string;
+  disclaimer: string;
+  timestamp: string;
+}
+
+export interface DoctorSpecialty {
+  id: string;
+  name: string;
+  description: string;
+  icon: string;
 }
 
 export interface AgentStep {

@@ -22,24 +22,24 @@ export function ContactPage() {
     <div className="min-h-screen bg-slate-950 pt-20 sm:pt-24 pb-12 sm:pb-16 md:pb-20">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-8 sm:mb-10 md:mb-12">
-          <div className="inline-flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-full mb-4 sm:mb-6">
+          <div className="inline-flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-gradient-to-br from-red-500 to-red-600 rounded-full mb-4 sm:mb-6">
             <Mail className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-white" />
           </div>
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-slate-100 mb-3 sm:mb-4 px-2">
             Get in touch
           </h1>
           <p className="text-base sm:text-lg md:text-xl text-slate-300 max-w-2xl mx-auto px-2">
-            If you spot missing or incorrect tenders, or want to request new
-            cities or features, let us know.
+            Missing features? Suggestions? Want us to add more symptom support?
+            Let us know how we can improve Clinexa.
           </p>
         </div>
 
         {submitted && (
-          <div className="mb-8 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl p-6 animate-fadeIn">
+          <div className="mb-8 bg-red-500/10 border border-red-500/20 rounded-2xl p-6 animate-fadeIn">
             <div className="flex items-center gap-3">
-              <CheckCircle2 className="w-6 h-6 text-emerald-400 flex-shrink-0" />
+              <CheckCircle2 className="w-6 h-6 text-red-400 flex-shrink-0" />
               <div>
-                <h3 className="text-lg font-semibold text-emerald-400 mb-1">
+                <h3 className="text-lg font-semibold text-red-400 mb-1">
                   Thank you for your message!
                 </h3>
                 <p className="text-slate-300">
@@ -65,7 +65,7 @@ export function ContactPage() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Your name"
-                className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-xl text-slate-200 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+                className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-xl text-slate-200 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all"
               />
             </div>
 
@@ -82,7 +82,7 @@ export function ContactPage() {
                 value={company}
                 onChange={(e) => setCompany(e.target.value)}
                 placeholder="Your company name"
-                className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-xl text-slate-200 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+                className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-xl text-slate-200 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all"
               />
             </div>
 
@@ -100,7 +100,7 @@ export function ContactPage() {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="your@email.com"
                 required
-                className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-xl text-slate-200 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+                className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-xl text-slate-200 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all"
               />
             </div>
 
@@ -115,7 +115,7 @@ export function ContactPage() {
                 id="message"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
-                placeholder="Tell us about missing tenders, feature requests, or any feedback..."
+                placeholder="Tell us about feature requests, suggestions, or any feedback about Clinexa..."
                 required
                 rows={6}
                 className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-xl text-slate-200 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all resize-none"
@@ -124,7 +124,7 @@ export function ContactPage() {
 
             <button
               type="submit"
-              className="w-full flex items-center justify-center gap-2 px-6 py-4 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white font-semibold rounded-xl shadow-lg shadow-emerald-500/30 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
+              className="w-full flex items-center justify-center gap-2 px-6 py-4 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-semibold rounded-xl shadow-lg shadow-red-500/30 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
             >
               <Send className="w-5 h-5" />
               <span>Send message</span>
@@ -135,7 +135,7 @@ export function ContactPage() {
             <p className="text-slate-400 mb-2">Or email us directly at:</p>
             <a
               href="mailto:team@makebit.tech"
-              className="text-emerald-400 hover:text-emerald-300 font-medium text-lg transition-colors"
+              className="text-red-400 hover:text-red-300 font-medium text-lg transition-colors"
             >
               team@makebit.tech
             </a>

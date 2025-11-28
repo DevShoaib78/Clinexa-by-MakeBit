@@ -212,14 +212,14 @@
 /* ===== GRADIENT TEXT ===== */
 
 .gradient-text {
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  background: linear-gradient(135deg, #ef4444 0%, #f87171 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
 .gradient-text-animated {
-  background: linear-gradient(135deg, #10b981, #059669, #34d399, #10b981);
+  background: linear-gradient(135deg, #ef4444, #f87171, #fb7185, #ef4444);
   background-size: 200% 200%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -239,12 +239,12 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #10b981, #059669);
+  background: linear-gradient(180deg, #ef4444, #f87171);
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #34d399, #10b981);
+  background: linear-gradient(180deg, #f87171, #ef4444);
 }
 
 /* ===== BASE STYLES ===== */
@@ -285,16 +285,16 @@ header:focus-visible {
 
 /* ===== GLOW EFFECTS ===== */
 
-.glow-emerald {
-  box-shadow: 0 0 20px rgba(16, 185, 129, 0.3),
-    0 0 40px rgba(16, 185, 129, 0.2),
-    0 0 60px rgba(16, 185, 129, 0.1);
+.glow-red {
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.3),
+    0 0 40px rgba(239, 68, 68, 0.2),
+    0 0 60px rgba(239, 68, 68, 0.1);
 }
 
-.glow-emerald-strong {
-  box-shadow: 0 0 30px rgba(16, 185, 129, 0.5),
-    0 0 60px rgba(16, 185, 129, 0.3),
-    0 0 90px rgba(16, 185, 129, 0.2);
+.glow-red-strong {
+  box-shadow: 0 0 30px rgba(239, 68, 68, 0.5),
+    0 0 60px rgba(239, 68, 68, 0.3),
+    0 0 90px rgba(239, 68, 68, 0.2);
 }
 
 /* ===== PARTICLE BACKGROUND ===== */
@@ -311,7 +311,7 @@ header:focus-visible {
   position: absolute;
   width: 4px;
   height: 4px;
-  background: rgba(16, 185, 129, 0.6);
+  background: rgba(239, 68, 68, 0.6);
   border-radius: 50%;
   animation: particle-float 15s linear infinite;
 }

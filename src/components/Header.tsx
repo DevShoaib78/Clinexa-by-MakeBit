@@ -61,12 +61,12 @@ export function Header() {
           <Link to="/" className="flex items-center group relative z-50">
             <div className="relative">
               {/* Glow effect on hover */}
-              <div className="absolute -inset-2 bg-gradient-to-r from-emerald-500/20 to-emerald-600/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="absolute -inset-2 bg-gradient-to-r from-red-500/20 to-red-600/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               {/* Logo container */}
               <div className="relative group-hover:scale-105 transition-transform duration-300">
                 <img
-                  src="/assets/nexbidwithoutbg.png"
-                  alt="NexBid Logo"
+                  src="/assets/clinexalogo.webp"
+                  alt="Clinexa Logo"
                   className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain drop-shadow-lg"
                   loading="eager"
                   width="150"
@@ -84,16 +84,16 @@ export function Header() {
                 to={link.path}
                 className={`relative px-4 lg:px-6 py-2.5 rounded-lg text-sm font-semibold transition-all duration-300 ${
                   isActive(link.path)
-                    ? "text-emerald-400"
+                    ? "text-red-400"
                     : "text-white hover:text-slate-200"
                 }`}
               >
                 {isActive(link.path) && (
                   <>
                     {/* Active indicator background */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/10 via-emerald-600/10 to-emerald-500/10 rounded-lg" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-red-500/10 via-red-600/10 to-red-500/10 rounded-lg" />
                     {/* Bottom border indicator */}
-                    <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-emerald-500 to-emerald-600 rounded-full" />
+                    <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-red-500 to-red-600 rounded-full" />
                   </>
                 )}
                 <span className="relative z-10">{link.label}</span>
@@ -137,12 +137,12 @@ export function Header() {
                     onClick={() => setMobileMenuOpen(false)}
                     className={`relative px-4 py-3 rounded-lg text-base font-semibold transition-all duration-300 ${
                       isActive(link.path)
-                        ? "text-emerald-400 bg-emerald-500/10"
-                        : "text-white hover:text-emerald-400 hover:bg-slate-800/50"
+                        ? "text-red-400 bg-red-500/10"
+                        : "text-white hover:text-red-400 hover:bg-slate-800/50"
                     }`}
                   >
                     {isActive(link.path) && (
-                      <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-emerald-500 to-emerald-600 rounded-r" />
+                      <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-red-500 to-red-600 rounded-r" />
                     )}
                     <span className="relative z-10">{link.label}</span>
                   </Link>
